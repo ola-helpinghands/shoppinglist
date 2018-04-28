@@ -20,22 +20,26 @@
 <body>
   <div id="app">
     <h1>OLA Helping Hands Shopping List</h1>
-    <input type="number" min=1 max=10 v-model="shoppinglist.clients">
 
-    <div class="category" v-for="category in categories">
-      <h3>{{ category['name'] }}
-        <small>{{ category['limitPerPerson'] }} per client</small>
+    <label for="clientCount">Clients</label>
+    <input id="clientCount" name="clientCount" type="number" min=1 max=10 v-model="shoppinglist.clients">
+
+    <div class="category" v-for="category in categories" :data-category="category['.key']" :key="category['.key']">
+      <h3 class="category-title">{{ category['name'] }} Products
+        <small class="category-limit">{{ category['limitPerPerson'] }} per client</small>
       </h3>
-      <ul class="food-items">
-        <li v-for="i in parseInt(category['limitPerPerson']) * shoppinglist.clients">
-          <input type="text" :placeholder="category['name'] + ' item #' + i">
+
+      <ol class="food-items">
+        <li v-for="i in parseInt(category[ 'limitPerPerson']) * shoppinglist.clients">
+          <input type="text " :placeholder="category[ 'name'] + ' item #' + i">
         </li>
-      </ul>
+      </ol>
     </div>
-    <form id=" form " v-on:submit.prevent="addCategory ">
-      <input type="text " v-model="newCategory.name " placeholder="Food category name ">
-      <input type="number " v-model="newCategory.limitPerPerson " min=0 max=5 placeholder="Limit per person ">
-      <input type="submit " value="Add Food Category ">
+
+    <form id="form " v-on:submit.prevent="addCategory">
+      <input type="text" v-model="newCategory.name" placeholder="Food category name">
+      <input type="number" v-model="newCategory.limitPerPerson" min=0 max=5 placeholder="Limit per person">
+      <input type="submit" value="Add Food Category">
     </form>
   </div>
 
