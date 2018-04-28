@@ -23,8 +23,16 @@ const vm = new Vue({
     }
   },
   firebase: {
-    // simple syntax, bind as an array by default
     categories: db.ref('categories')
+  },
+  created: function() {
+    this.$firebaseRefs.categories.on('child_added', data => {
+      this.shoppinglist.categories[data.key] = [];
+    });
+
+    this.$firebaseRefs.categories.on('child_removed', data => {
+      delete this.shoppinglist.categories[data.key];
+    });
   },
   methods: {
     addCategory: function() {
