@@ -35,15 +35,16 @@
         </li>
       </ol>
     </div>
-
-    <form id="form " v-on:submit.prevent="addCategory">
-      <input type="text" v-model="newCategory.name" placeholder="Food category name">
-      <input type="number" v-model="newCategory.limitPerPerson" min=0 max=5 placeholder="Limit per person">
-      <input type="submit" value="Add Food Category">
-    </form>
+    <button>Submit</button>
   </div>
 
-  </div>
+  <hr>
+
+  <form id="form " v-on:submit.prevent="addCategory">
+    <input type="text" v-model="newCategory.name" placeholder="Food category name">
+    <input type="number" v-model="newCategory.limitPerPerson" min=0 max=5 placeholder="Limit per person">
+    <input type="submit" value="Add Food Category">
+  </form>
 </body>
 
 </html>
