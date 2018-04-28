@@ -18,6 +18,8 @@ const vm = new Vue({
       limitPerPerson: 1
     },
     shoppinglist: {
+      shopper: null,
+      client: null,
       clients: 1,
       categories: {}
     }
@@ -33,6 +35,16 @@ const vm = new Vue({
     this.$firebaseRefs.categories.on('child_removed', data => {
       delete this.shoppinglist.categories[data.key];
     });
+  },
+  computed: {
+    addedItemCount: function() {
+      return this.shoppinglist.categories.reduce(
+        (total, category) =>
+          total + this.shoppinglist.categories[category].length
+      );
+    },
+    totalItemCount: function() {},
+    percentDone: function() {}
   },
   methods: {
     addCategory: function() {
