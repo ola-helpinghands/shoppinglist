@@ -8,7 +8,7 @@
   <title>Shopping List</title>
 
   <!-- Vue -->
-  <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
   <!-- VueFire -->
@@ -47,7 +47,10 @@
             </div>
             <div class="field column">
               <label class="label" for="client">Client</label>
-              <input class="input" id="client" name="client" type="text" placeholder="Name of client." v-model="shoppinglist.client">
+              <select class="input" name="client" id="client" v-model="shoppinglist.client">
+                <option v-show="currentClients === {}" disabled>No current clients.</option>
+                <option v-for="(c, index) in currentClients" :value="index">{{ c['name']['first'] + ' ' + c['name']['last'] }}</option>
+              </select>
             </div>
             <div class="field column">
               <label class="label" for="clientCount">Clients Shopping For</label>

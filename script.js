@@ -15,6 +15,7 @@ const vm = new Vue({
   data: {
     clean: {},
     totalPerClient: 0,
+    currentClients: {},
     shoppinglist: {
       shopper: '',
       client: '',
@@ -23,7 +24,7 @@ const vm = new Vue({
     }
   },
   firebase: {
-    clients: db.ref('clients'),
+    current: db.ref('current'),
     volunteers: db.ref('volunteers'),
     categories: db.ref('categories'),
     shoppinglists: db.ref('finishedShoppinglists')
@@ -39,6 +40,18 @@ const vm = new Vue({
       Vue.delete(this.clean, data.key);
       Vue.delete(this.shoppinglist.items, data.key);
       this.totalPerClient -= data.val()['limitPerPerson'];
+    });
+
+    this.$firebaseRefs.current.child('clients').on('child_added', data => {
+      const key = data.val();
+      db.ref('clients/contact/' + key).on('value', data => {
+        Vue.set(this.currentClients, key, data.val());
+      });
+    });
+
+    this.$firebaseRefs.current.child('clients').on('child_removed', data => {
+      const key = data.val();
+      Vue.delete(this.currentClients, key);
     });
   },
   computed: {
