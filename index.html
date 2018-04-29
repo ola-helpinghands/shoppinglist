@@ -41,7 +41,7 @@
             <div class="field column">
               <label class="label" for="shopper">Shopper</label>
               <select class="input" name="shopper" id="shopper" v-model="shoppinglist.shopper">
-                <option v-for="v in volunteers" :value="v['.key']">{{ v['name']['first'] + ' ' + v['name']['last'] }}</option>
+                <option v-for="(v, index) in currentVolunteers" :value="index">{{ v['name']['first'] + ' ' + v['name']['last'] }}</option>
               </select>
 
             </div>
