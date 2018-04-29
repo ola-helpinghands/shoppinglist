@@ -51,7 +51,7 @@
             </div>
             <div class="field column">
               <label class="label" for="clientCount">Clients Shopping For</label>
-              <input class="input" id="clientCount" name="clientCount" type="number" min=1 max=10 v-model="shoppinglist.clients">
+              <input class="input" id="clientCount" name="clientCount" type="number" min=1 max=10 v-model="shoppinglist.clientCount">
             </div>
           </div>
         </div>
@@ -66,16 +66,15 @@
               <small class="category-limit has-text-grey-light">{{ category['limitPerPerson'] }} per client</small>
             </h3>
 
-
             <ol class="food-items">
-              <li v-for="i in parseInt(category['limitPerPerson']) * shoppinglist.clients">
+              <li v-for="i in parseInt(category['limitPerPerson']) * shoppinglist.clientCount">
                 <input class="input food-input" type="text" :placeholder="category['name'] + ' item #' + i" v-model="shoppinglist.categories[category['.key']][i-1]">
               </li>
             </ol>
           </div>
         </div>
 
-        <button class="button is-danger is-medium">Done</button>
+        <button class="button is-danger is-medium" @click="submitShoppinglist">Done</button>
       </div>
 
       <div class="container">

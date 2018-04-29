@@ -13,6 +13,7 @@ const db = firebaseApp.database();
 const vm = new Vue({
   el: '#app',
   data: {
+    clean: {},
     totalPerClient: 0,
     newCategory: {
       name: '',
@@ -21,22 +22,25 @@ const vm = new Vue({
     shoppinglist: {
       shopper: '',
       client: '',
-      clients: 1,
+      clientCount: 1,
       categories: {}
     }
   },
   firebase: {
     clients: db.ref('clients'),
     volunteers: db.ref('volunteers'),
-    categories: db.ref('categories')
+    categories: db.ref('categories'),
+    shoppinglists: db.ref('finishedShoppinglists')
   },
   created: function() {
     this.$firebaseRefs.categories.on('child_added', data => {
+      this.clean[data.key] = [];
       Vue.set(this.shoppinglist.categories, data.key, []);
       this.totalPerClient += parseInt(data.val()['limitPerPerson']);
     });
 
     this.$firebaseRefs.categories.on('child_removed', data => {
+      Vue.delete(this.clean, data.key);
       Vue.delete(this.shoppinglist.categories, data.key);
       this.totalPerClient -= data.val()['limitPerPerson'];
     });
@@ -50,7 +54,7 @@ const vm = new Vue({
       );
     },
     totalItemCount: function() {
-      return this.shoppinglist.clients * this.totalPerClient;
+      return this.shoppinglist.clientCount * this.totalPerClient;
     },
     percentDone: function() {
       //return 50;
@@ -72,6 +76,15 @@ const vm = new Vue({
     addCategory: function() {
       const key = this.newCategory.name.split(' ')[0].toLowerCase();
       this.$firebaseRefs.categories.child(key).set(this.newCategory);
+    },
+    submitShoppinglist: function() {
+      this.$firebaseRefs.shoppinglists.push(this.shoppinglist);
+      this.shoppinglist = {
+        shopper: '',
+        client: '',
+        clientCount: 1,
+        categories: JSON.parse(JSON.stringify(this.clean))
+      };
     }
   }
 });
