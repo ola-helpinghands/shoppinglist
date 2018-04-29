@@ -56,9 +56,6 @@ const vm = new Vue({
       //return 50;
       let val = Math.floor(this.addedItemCount / this.totalItemCount * 100);
       if (isNaN(val)) val = 0;
-      console.log(typeof val);
-      console.log(val);
-
       return val;
     },
     percentBarStyle: function() {
