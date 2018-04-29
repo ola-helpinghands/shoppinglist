@@ -47,7 +47,7 @@
             </div>
             <div class="field column">
               <label class="label" for="client">Client</label>
-              <select class="input" name="client" id="client" v-model="shoppinglist.client">
+              <select class="input" name="client" id="client" v-model="shoppinglist.client" @change="onClientChange">
                 <option v-show="currentClients === {}" disabled>No current clients.</option>
                 <option v-for="(c, index) in currentClients" :value="index">{{ c['name']['first'] + ' ' + c['name']['last'] }}</option>
               </select>

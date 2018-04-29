@@ -30,6 +30,7 @@ const vm = new Vue({
     shoppinglists: db.ref('finishedShoppinglists')
   },
   created: function() {
+    // CATEGORIES
     this.$firebaseRefs.categories.on('child_added', data => {
       this.clean[data.key] = [];
       Vue.set(this.shoppinglist.items, data.key, []);
@@ -42,6 +43,7 @@ const vm = new Vue({
       this.totalPerClient -= data.val()['limitPerPerson'];
     });
 
+    // CLIENTS
     this.$firebaseRefs.current.child('clients').on('child_added', data => {
       const key = data.val();
       db.ref('clients/contact/' + key).on('value', data => {
@@ -119,6 +121,13 @@ const vm = new Vue({
         clientCount: 1,
         items: JSON.parse(JSON.stringify(this.clean))
       };
+    },
+    onClientChange: function(event) {
+      db
+        .ref('clients/household/' + this.shoppinglist.client + '/individuals')
+        .once('value', data => {
+          this.shoppinglist.clientCount = data.val().length; // Set clientCount to # of individuals in client's household
+        });
     }
   }
 });
