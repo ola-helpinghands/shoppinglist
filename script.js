@@ -78,6 +78,16 @@ const vm = new Vue({
       this.$firebaseRefs.categories.child(key).set(this.newCategory);
     },
     submitShoppinglist: function() {
+      if (
+        this.percentDone !== 100 &&
+        !confirm(
+          `Are you sure you are finished shopping? You are ${
+            this.percentDone
+          }% done.`
+        )
+      )
+        return;
+
       this.$firebaseRefs.shoppinglists.push(this.shoppinglist);
       this.shoppinglist = {
         shopper: '',
