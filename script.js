@@ -26,6 +26,8 @@ const vm = new Vue({
     }
   },
   firebase: {
+    clients: db.ref('clients'),
+    volunteers: db.ref('volunteers'),
     categories: db.ref('categories')
   },
   created: function() {

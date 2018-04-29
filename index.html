@@ -40,7 +40,10 @@
           <div class="columns">
             <div class="field column">
               <label class="label" for="shopper">Shopper</label>
-              <input class="input" id="shopper" name="shopper" type="text" placeholder="Name of shopper." v-model="shoppinglist.shopper">
+              <select class="input" name="shopper" id="shopper" v-model="shoppinglist.shopper">
+                <option v-for="v in volunteers" :value="v['.key']">{{ v['name']['first'] + ' ' + v['name']['last'] }}</option>
+              </select>
+
             </div>
             <div class="field column">
               <label class="label" for="client">Client</label>
