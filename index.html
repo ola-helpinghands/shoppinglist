@@ -74,7 +74,7 @@
           </div>
         </div>
 
-        <button class="button is-danger is-medium" @click="submitShoppinglist">Done</button>
+        <button class="button is-danger is-medium" :class="{disabled: !valid}" :disabled="!valid" @click="submitShoppinglist">Done</button>
       </div>
 
       <div class="container">

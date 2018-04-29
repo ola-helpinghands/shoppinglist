@@ -70,6 +70,12 @@ const vm = new Vue({
         'is-danger': this.percentDone <= 20,
         'is-success': this.percentDone == 100
       };
+    },
+    valid: function() {
+      if (!this.shoppinglist.client) return false;
+      if (!this.shoppinglist.shopper) return false;
+      if (this.addedItemCount == 0) return false;
+      return true;
     }
   },
   methods: {
@@ -78,6 +84,7 @@ const vm = new Vue({
       this.$firebaseRefs.categories.child(key).set(this.newCategory);
     },
     submitShoppinglist: function() {
+      if (!this.valid) return;
       if (
         this.percentDone !== 100 &&
         !confirm(
