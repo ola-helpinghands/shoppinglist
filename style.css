@@ -1,0 +1,16 @@
+.hero.header {
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+  top: 0;
+}
+
+.category-title {
+  margin-top: 5px;
+  margin-bottom: 5px !important;
+}
+
+section.list {
+  padding-top: 20px;
+  margin-top: 7.4em;
+}

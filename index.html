@@ -14,37 +14,79 @@
   <!-- VueFire -->
   <script src="https://unpkg.com/vuefire/dist/vuefire.js"></script>
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+  <link rel="stylesheet" href="style.css">
+
   <script defer src="script.js"></script>
 </head>
 
 <body>
   <div id="app">
-    <h1>OLA Helping Hands Shopping List</h1>
+    <section class="hero is-primary is-small is-bold header">
+      <div class="hero-body">
+        <div class="container">
+          <h1 class="title">
+            OLA Helping Hands Shopping List
+          </h1>
 
-    <label for="clientCount">Clients</label>
-    <input id="clientCount" name="clientCount" type="number" min=1 max=10 v-model="shoppinglist.clients">
+          <progress class="progress shopping-progress" :class="percentBarStyle" :value="percentDone" max="100">{{ percentDone }}%</progress>
+        </div>
+      </div>
+    </section>
 
-    <div class="category" v-for="category in categories" :data-category="category['.key']" :key="category['.key']">
-      <h3 class="category-title">{{ category['name'] }} Products
-        <small class="category-limit">{{ category['limitPerPerson'] }} per client</small>
-      </h3>
+    <section class="section list">
+      <div>
+        <div class="container">
+          <div class="field">
+            <label class="label" for="clientCount">Clients</label>
+            <input class="input" id="clientCount" name="clientCount" type="number" min=1 max=10 v-model="shoppinglist.clients">
+          </div>
+        </div>
 
-      <ol class="food-items">
-        <li v-for="i in parseInt(category[ 'limitPerPerson']) * shoppinglist.clients">
-          <input type="text " :placeholder="category[ 'name'] + ' item #' + i" v-model="shoppinglist.categories[category['.key']][i-1]">
-        </li>
-      </ol>
-    </div>
-    <button>Submit</button>
+        <div class="container">
+          <div class="columns is-multiline">
+            <div class="category column is-one-third" v-for="category in categories" :data-category="category['.key']" :key="category['.key']">
+              <h3 class="subtitle category-title">{{ category['name'] }} Products
+                <small class="category-limit has-text-grey-light">{{ category['limitPerPerson'] }} per client</small>
+              </h3>
+
+
+              <ol class="food-items">
+                <li v-for="i in parseInt(category['limitPerPerson']) * shoppinglist.clients">
+                  <input class="input" type="text" :placeholder="category['name'] + ' item #' + i" v-model="shoppinglist.categories[category['.key']][i-1]">
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+
+        <button class="button is-danger is-medium">Done</button>
+
+
+        <hr>
+
+        <form id="form" v-on:submit.prevent="addCategory">
+          <input class="input" type="text" v-model="newCategory.name" placeholder="Food category name">
+          <input class="input" type="number" v-model="newCategory.limitPerPerson" min=1 max=5 placeholder="Limit per person">
+          <input class="button is-primary" type="submit" value="Add Food Category">
+        </form>
+
+        <hr>
+        <pre>
+        {{ $data }}
+      </pre>
+
+        <p>
+          {{ addedItemCount }} out of {{ totalItemCount }} ({{ percentDone }}%)
+        </p>
+      </div>
+
+
+    </section>
+
   </div>
 
-  <hr>
-
-  <form id="form " v-on:submit.prevent="addCategory">
-    <input type="text" v-model="newCategory.name" placeholder="Food category name">
-    <input type="number" v-model="newCategory.limitPerPerson" min=0 max=5 placeholder="Limit per person">
-    <input type="submit" value="Add Food Category">
-  </form>
 </body>
 
 </html>

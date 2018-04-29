@@ -13,6 +13,7 @@ const db = firebaseApp.database();
 const vm = new Vue({
   el: '#app',
   data: {
+    totalPerClient: 0,
     newCategory: {
       name: '',
       limitPerPerson: 1
@@ -29,22 +30,41 @@ const vm = new Vue({
   },
   created: function() {
     this.$firebaseRefs.categories.on('child_added', data => {
-      this.shoppinglist.categories[data.key] = [];
+      Vue.set(this.shoppinglist.categories, data.key, []);
+      this.totalPerClient += parseInt(data.val()['limitPerPerson']);
     });
 
     this.$firebaseRefs.categories.on('child_removed', data => {
-      delete this.shoppinglist.categories[data.key];
+      Vue.delete(this.shoppinglist.categories, data.key);
+      this.totalPerClient -= data.val()['limitPerPerson'];
     });
   },
   computed: {
     addedItemCount: function() {
-      return this.shoppinglist.categories.reduce(
-        (total, category) =>
-          total + this.shoppinglist.categories[category].length
+      const l = this.shoppinglist.categories;
+      return Object.keys(l).reduce(
+        (total, c) => total + l[c].filter(String).length,
+        0
       );
     },
-    totalItemCount: function() {},
-    percentDone: function() {}
+    totalItemCount: function() {
+      return this.shoppinglist.clients * this.totalPerClient;
+    },
+    percentDone: function() {
+      //return 50;
+      let val = Math.floor(this.addedItemCount / this.totalItemCount * 100);
+      if (isNaN(val)) val = 0;
+      console.log(typeof val);
+      console.log(val);
+
+      return val;
+    },
+    percentBarStyle: function() {
+      return {
+        'is-danger': this.percentDone <= 20,
+        'is-success': this.percentDone == 100
+      };
+    }
   },
   methods: {
     addCategory: function() {
