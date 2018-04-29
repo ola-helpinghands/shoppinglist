@@ -19,8 +19,8 @@ const vm = new Vue({
       limitPerPerson: 1
     },
     shoppinglist: {
-      shopper: null,
-      client: null,
+      shopper: '',
+      client: '',
       clients: 1,
       categories: {}
     }
