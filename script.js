@@ -19,7 +19,7 @@ const vm = new Vue({
       shopper: '',
       client: '',
       clientCount: 1,
-      categories: {}
+      items: {}
     }
   },
   firebase: {
@@ -31,19 +31,19 @@ const vm = new Vue({
   created: function() {
     this.$firebaseRefs.categories.on('child_added', data => {
       this.clean[data.key] = [];
-      Vue.set(this.shoppinglist.categories, data.key, []);
+      Vue.set(this.shoppinglist.items, data.key, []);
       this.totalPerClient += parseInt(data.val()['limitPerPerson']);
     });
 
     this.$firebaseRefs.categories.on('child_removed', data => {
       Vue.delete(this.clean, data.key);
-      Vue.delete(this.shoppinglist.categories, data.key);
+      Vue.delete(this.shoppinglist.items, data.key);
       this.totalPerClient -= data.val()['limitPerPerson'];
     });
   },
   computed: {
     addedItemCount: function() {
-      const l = this.shoppinglist.categories;
+      const l = this.shoppinglist.items;
       return Object.keys(l).reduce(
         (total, c) => total + l[c].filter(String).length,
         0
@@ -94,7 +94,7 @@ const vm = new Vue({
         shopper: '',
         client: '',
         clientCount: 1,
-        categories: JSON.parse(JSON.stringify(this.clean))
+        items: JSON.parse(JSON.stringify(this.clean))
       };
     }
   }

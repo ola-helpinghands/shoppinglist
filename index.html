@@ -68,7 +68,7 @@
 
             <ol class="food-items">
               <li v-for="i in parseInt(category['limitPerPerson']) * shoppinglist.clientCount">
-                <input class="input food-input" type="text" :placeholder="category['name'] + ' item #' + i" v-model="shoppinglist.categories[category['.key']][i-1]">
+                <input class="input food-input" type="text" :placeholder="category['name'] + ' item #' + i" v-model="shoppinglist.items[category['.key']][i-1]">
               </li>
             </ol>
           </div>
