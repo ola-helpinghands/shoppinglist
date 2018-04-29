@@ -76,23 +76,7 @@
 
         <button class="button is-danger is-medium" :class="{disabled: !valid}" :disabled="!valid" @click="submitShoppinglist">Done</button>
       </div>
-
-      <div class="container">
-        <hr>
-
-        <form id="form" v-on:submit.prevent="addCategory">
-          <input class="input" type="text" v-model="newCategory.name" placeholder="Food category name">
-          <input class="input" type="number" v-model="newCategory.limitPerPerson" min=1 max=5 placeholder="Limit per person">
-          <input class="button is-primary" type="submit" value="Add Food Category">
-        </form>
-
-        <hr>
-        <pre>
-          {{ $data }}
-        </pre>
-      </div>
     </section>
-
   </div>
 
 </body>

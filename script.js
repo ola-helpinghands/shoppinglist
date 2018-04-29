@@ -15,10 +15,6 @@ const vm = new Vue({
   data: {
     clean: {},
     totalPerClient: 0,
-    newCategory: {
-      name: '',
-      limitPerPerson: 1
-    },
     shoppinglist: {
       shopper: '',
       client: '',
@@ -79,10 +75,6 @@ const vm = new Vue({
     }
   },
   methods: {
-    addCategory: function() {
-      const key = this.newCategory.name.split(' ')[0].toLowerCase();
-      this.$firebaseRefs.categories.child(key).set(this.newCategory);
-    },
     submitShoppinglist: function() {
       if (!this.valid) return;
       if (
@@ -95,7 +87,9 @@ const vm = new Vue({
       )
         return;
 
-      this.$firebaseRefs.shoppinglists.push(this.shoppinglist);
+      this.$firebaseRefs.shoppinglists
+        .child(new Date().toString())
+        .set(this.shoppinglist);
       this.shoppinglist = {
         shopper: '',
         client: '',
