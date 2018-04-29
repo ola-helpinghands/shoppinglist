@@ -10,7 +10,14 @@
   margin-bottom: 5px !important;
 }
 
+section.info {
+  margin-top: 7.4em;
+}
+
 section.list {
   padding-top: 20px;
-  margin-top: 7.4em;
+}
+
+.food-items li {
+  list-style-type: none;
 }
