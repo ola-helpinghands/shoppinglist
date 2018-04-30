@@ -119,7 +119,7 @@ const vm = new Vue({
         .child(new Date().toString())
         .set(this.shoppinglist);
       this.shoppinglist = {
-        shopper: '',
+        shopper: this.shoppinglist.shopper,
         client: '',
         clientCount: 1,
         items: JSON.parse(JSON.stringify(this.clean))
