@@ -70,6 +70,9 @@ const vm = new Vue({
     });
   },
   computed: {
+    ready: function() {
+      return !!this.shoppinglist.shopper && !!this.shoppinglist.client;
+    },
     addedItemCount: function() {
       const l = this.shoppinglist.items;
       return Object.keys(l).reduce(

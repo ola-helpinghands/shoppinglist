@@ -61,7 +61,15 @@
       </div>
     </section>
 
-    <section class="section list">
+    <section v-if="!ready">
+      <div class="container">
+        <div class="notification is-danger">
+          Choose a shopper and client to get started.
+        </div>
+      </div>
+    </section>
+
+    <section v-if="ready" class="section list">
       <div class="container">
         <div class="columns is-multiline">
           <div class="category column is-one-third" v-for="category in categories" :data-category="category['.key']" :key="category['.key']">
